@@ -5,19 +5,17 @@ from test_donut import Circle
 
 
 class Torus:
-    circles: list[Circle]
+    points: list[np.ndarray]
     rad: float
     center: np.array
     def __init__(self, center: np.array, ):
         self.center = center
         self.rad = 100
-        self.circles = []
+        self.points = []
 
     def make_torus(self):
         for theta in range(30):
-            circ = Circle(np.add(self.center, [100, 0]))
-            circ.rotate_circle(2*pi/30, axis='y')
-            self.circles.append(circ)
+            pass
     
     def draw_torus(self, surf):
         for circ in self.circles:

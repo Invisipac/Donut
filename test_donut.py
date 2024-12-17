@@ -3,34 +3,30 @@ import numpy as np
 from math import sin, cos, pi
 
 
-
 class Circle:
 
     x: float
     y: float
     z: float
-    center: np.array
-    points: list[np.array]
+    points: list[np.ndarray]
     rad: float
     num_points: float
+    pos: np.ndarray
 
-    def __init__(self, center: np.array):
-        self.x = center[0]
-        self.y = center[1]
-        self.dist_from_view = center[2] + 90
-        self.screen_center = np.array([self.x, self.y])
-        self.center = center
-        self.rad = 90
+    def __init__(self, rad: float, pos: np.ndarray):
+        self.x, self.y, self.z = pos[0], pos[1], pos[2]
+        self.pos = pos
+        self.rad = rad
         self.points = []
-        self.num_points = 50
+        self.num_points = 100
 
     def show_center(self):
         print(self.x, self.y, self.z)
 
     def make_circle(self):
         for theta in range(0, self.num_points):
-            px = 90+self.rad*cos(theta*(2*pi/self.num_points))    
-            py = self.rad*sin(theta*(2*pi/self.num_points))
+            px = self.pos[0] + self.rad*cos(theta*(2*pi/self.num_points))    
+            py = self.pos[1] + self.rad*sin(theta*(2*pi/self.num_points))
             self.points.append(np.array([px, py, 0]))
 
     def draw_circle(self, surf: pg.Surface, dist_to_screen = 100):
