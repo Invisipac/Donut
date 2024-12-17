@@ -18,7 +18,7 @@ class Circle:
         self.pos = pos
         self.rad = rad
         self.points = []
-        self.num_points = 100
+        self.num_points = 30
 
     def show_center(self):
         print(self.x, self.y, self.z)
