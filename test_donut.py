@@ -18,7 +18,7 @@ class Circle:
         self.pos = pos
         self.rad = rad
         self.points = []
-        self.num_points = 30
+        self.num_points = 15
 
     def show_center(self):
         print(self.x, self.y, self.z)
@@ -36,7 +36,7 @@ class Circle:
             proj_p = np.array([p[0]*proj_scalar, 
                                p[1]*proj_scalar])
             
-            pg.draw.circle(surf, (0, 0, 0), np.add(self.screen_center, proj_p), 2) 
+            pg.draw.circle(surf, (0, 0, 0), np.add(self.screen_center, proj_p), 20) 
     
     def rotate_circle(self, theta, axis='y'):
         match axis:

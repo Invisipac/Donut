@@ -16,7 +16,7 @@ class Screen():
         for p in points:
             proj_factor = self.dist_to_viewer/(self.dist_to_viewer + self.dist_to_center - p[2])
             projected_point = proj_factor*np.array([p[0], -p[1]])
-            pg.draw.circle(self.display, (0, 0, 0), np.add(self.pos, projected_point), 2) 
+            pg.draw.circle(self.display, (255, 255, 255), np.add(self.pos, projected_point), 5) 
             
 
     
