@@ -13,10 +13,18 @@ class Screen():
         self.display = pg.display.set_mode((dimension[0], dimension[1]))
 
     def draw_object(self, points: list[np.array], k=10):
-        for p in points:
-            proj_factor = self.dist_to_viewer/(self.dist_to_viewer + self.dist_to_center - p[2])
-            projected_point = proj_factor*np.array([p[0], -p[1]])
-            pg.draw.circle(self.display, (255, 255, 255), np.add(self.pos, projected_point), 5) 
+        points.sort(key=lambda ring: ring[0][0][2])
+        for i in range(len(points)):
+            for j in range(len(points[0])):
+                p = points[i][j]
+                if p[1] != 0:
+                    proj_factor = self.dist_to_viewer/(self.dist_to_viewer + self.dist_to_center - p[0][2])
+                    projected_point = proj_factor*np.array([p[0][0], p[0][1]])
+                    # if i == 10 and j == 5:
+                    #     print(p[0], p[2])
+                    #     pg.draw.circle(self.display, (255, 0, 0), np.add(self.pos, projected_point), 5)
+                    
+                    pg.draw.circle(self.display, (p[1], p[1], p[1]), np.add(self.pos, projected_point), 2) 
             
 
     

@@ -8,7 +8,7 @@ class Circle:
     x: float
     y: float
     z: float
-    points: list[np.ndarray]
+    points: list[list[np.ndarray, float, np.ndarray]]
     rad: float
     num_points: float
     pos: np.ndarray
@@ -18,7 +18,7 @@ class Circle:
         self.pos = pos
         self.rad = rad
         self.points = []
-        self.num_points = 15
+        self.num_points = 20
 
     def show_center(self):
         print(self.x, self.y, self.z)
@@ -27,7 +27,11 @@ class Circle:
         for theta in range(0, self.num_points):
             px = self.pos[0] + self.rad*cos(theta*(2*pi/self.num_points))    
             py = self.pos[1] + self.rad*sin(theta*(2*pi/self.num_points))
-            self.points.append(np.array([px, py, 0]))
+            point = [np.array([px, py, 0]), 255, np.array([0, 0, 0])]
+            point[2] = np.subtract(point[0], self.pos)
+            point[2] = point[2]/np.linalg.norm(point[2])
+            self.points.append(point)
+            
 
     def draw_circle(self, surf: pg.Surface, dist_to_screen = 100):
         for p in self.points:
@@ -55,7 +59,11 @@ class Circle:
         
         
         for i in range(len(self.points)):
-            self.points[i] = np.matmul(rotation_axis, self.points[i])
+            self.points[i][0] = np.matmul(rotation_axis, self.points[i][0])
+            self.points[i][2] = np.matmul(rotation_axis, self.points[i][2])
+            
+            
+
     
 
 
