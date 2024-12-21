@@ -14,6 +14,7 @@ class Torus:
         self.num_circles = 100
         self.root_circle = Circle(20, np.array([self.rad, 0, 0]))
         self.root_circle.make_circle()
+        self.axis = np.array([0, 1, 0])
 
     def make_torus(self):
         for theta in range(1, self.num_circles + 1):
@@ -93,7 +94,7 @@ class Torus:
             for j in range(len(self.points[0])):
                 self.points[i][j][0] = np.matmul(rotation_axis, self.points[i][j][0])
                 self.points[i][j][2] = np.matmul(rotation_axis, self.points[i][j][2])
-
+                self.axis = np.matmul(rotation_axis, self.axis)
         self.illuminate_torus()
     
     def rotate_around_certain_axis(self, axis: np.ndarray, theta: float):
@@ -108,8 +109,23 @@ class Torus:
             for j in range(len(self.points[0])):
                 self.points[i][j][0] = np.matmul(rotation, self.points[i][j][0])
                 self.points[i][j][2] = np.matmul(rotation, self.points[i][j][2])
+                self.axis = np.matmul(rotation, self.axis)
 
         self.illuminate_torus()
+
+    def draw_torus(self, screen: pg.Surface, dist_to_viewer: float, dist_to_center: float, k=10):
+        self.points.sort(key=lambda ring: ring[0][0][2])
+        for i in range(len(self.points)):
+            for j in range(len(self.points[0])):
+                p = self.points[i][j]
+                if p[1] != 0:
+                    proj_factor = dist_to_viewer/(dist_to_viewer + dist_to_center - p[0][2])
+                    projected_point = proj_factor*np.array([p[0][0], p[0][1]])
+                    # if i == 10 and j == 5:
+                    #     print(p[0], p[2])
+                    #     pg.draw.circle(self.display, (255, 0, 0), np.add(self.pos, projected_point), 5)
+                    
+                    pg.draw.circle(screen, (p[1], p[1], p[1]), np.add((screen.get_width()/2, screen.get_height()/2), projected_point), 2) 
     # def draw_torus(self, surf):
     #     for circ in self.circles:
     #         circ.draw_circle(surf)
