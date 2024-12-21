@@ -9,7 +9,7 @@ class Torus:
     center: np.array
     def __init__(self, center: np.array):
         self.center = center
-        self.rad = 100
+        self.rad = 80
         self.points = []
         self.num_circles = 100
         self.root_circle = Circle(20, np.array([self.rad, 0, 0]))
@@ -63,7 +63,7 @@ class Torus:
             for j in range(len(self.points[0])):
                 # norm = self.find_normal(i, j)
                 light = np.array([0, 0, 1])
-                illumination = np.dot(self.points[i][j][2], light)
+                illumination = np.dot((self.points[i][j][2]), light)
                 # if -5 < self.points[i][j][0][1] < 5:
                 # print(self.points[i][j][0], illumination)
                 if isclose(illumination, 0) or illumination == 0 or illumination < 0:
@@ -93,6 +93,21 @@ class Torus:
             for j in range(len(self.points[0])):
                 self.points[i][j][0] = np.matmul(rotation_axis, self.points[i][j][0])
                 self.points[i][j][2] = np.matmul(rotation_axis, self.points[i][j][2])
+
+        self.illuminate_torus()
+    
+    def rotate_around_certain_axis(self, axis: np.ndarray, theta: float):
+        x, y, z = axis[0], axis[1], axis[2]
+        rotation = np.array([
+            [x**2*(1 - cos(theta)) + cos(theta), x*y*(1 - cos(theta)) -z*sin(theta), x*z*(1 - cos(theta)) + y*sin(theta)],
+            [x*y*(1 - cos(theta)) + z*sin(theta), y**2*(1 - cos(theta)) + cos(theta), y*z*(1 - cos(theta)) - x*sin(theta)],
+            [x*z*(1 - cos(theta)) - y*sin(theta), y*z*(1 - cos(theta)) + x*sin(theta), z**2*(1 - cos(theta)) + cos(theta)]
+        ])
+
+        for i in range(len(self.points)):
+            for j in range(len(self.points[0])):
+                self.points[i][j][0] = np.matmul(rotation, self.points[i][j][0])
+                self.points[i][j][2] = np.matmul(rotation, self.points[i][j][2])
 
         self.illuminate_torus()
     # def draw_torus(self, surf):
