@@ -8,27 +8,27 @@ class Rotation:
         self.angle = pi/30
         self.can_turn = False
         self.start = None
-        self.perp_direction = np.array([0, 0, 0])
-        self.turn_direction = np.array([0, 0, 0])
-        self.end = np.array([0, 0])
+        # self.perp_direction = np.array([0, 0, 0])
+        # self.turn_direction = np.array([0, 0, 0])
+        # self.end = np.array([0, 0])
 
     def get_axis_start(self):
         x, y = pg.mouse.get_pos()[0], pg.mouse.get_pos()[1]
         self.start = np.array([x, y])
         self.end = np.array([self.start[0], self.start[1]])
 
-    def check_parallel(self, vec1: np.ndarray, vec2: np.ndarray):
-        newVec1 = vec1/np.linalg.norm(vec1)
-        newVec2 = vec2/np.linalg.norm(vec2)
+    # def check_parallel(self, vec1: np.ndarray, vec2: np.ndarray):
+    #     newVec1 = vec1/np.linalg.norm(vec1)
+    #     newVec2 = vec2/np.linalg.norm(vec2)
 
-        if all(newVec1[i] == newVec2[i] for i in range(len(vec1))):
-            return 1
-        elif all(newVec1[i] == -newVec2[i] for i in range(len(vec1))):
-            return -1
-        elif all(newVec1[i] == 0 for i in range(len(vec1))) or all(newVec2[i] == 0 for i in range(len(vec1))):
-            return 1
-        else:
-            return 0
+    #     if all(newVec1[i] == newVec2[i] for i in range(len(vec1))):
+    #         return 1
+    #     elif all(newVec1[i] == -newVec2[i] for i in range(len(vec1))):
+    #         return -1
+    #     elif all(newVec1[i] == 0 for i in range(len(vec1))) or all(newVec2[i] == 0 for i in range(len(vec1))):
+    #         return 1
+    #     else:
+    #         return 0
 
     def check_vec_equality(self, vec1, vec2):
         return all(vec1[i] == vec2[i] for i in range(len(vec1)))
