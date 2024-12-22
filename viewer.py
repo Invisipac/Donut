@@ -24,7 +24,7 @@ class Screen():
                     # if i == 10 and j == 5:
                     #     print(p[0], p[2])
                     #     pg.draw.circle(self.display, (255, 0, 0), np.add(self.pos, projected_point), 5)
-                    
+                    print('a')
                     pg.draw.circle(self.display, (p[1], p[1], p[1]), np.add(self.pos, projected_point), 2) 
 
             

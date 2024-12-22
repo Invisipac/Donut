@@ -124,8 +124,11 @@ class Torus:
                     # if i == 10 and j == 5:
                     #     print(p[0], p[2])
                     #     pg.draw.circle(self.display, (255, 0, 0), np.add(self.pos, projected_point), 5)
-                    
-                    pg.draw.circle(screen, (p[1], p[1], p[1]), np.add((screen.get_width()/2, screen.get_height()/2), projected_point), 2) 
+                    try:
+                        pg.draw.circle(screen, (p[1], p[1], p[1]), np.add((screen.get_width()/2, screen.get_height()/2), projected_point), 2) 
+                    except ValueError:
+                        # print(p)
+                        pass
     # def draw_torus(self, surf):
     #     for circ in self.circles:
     #         circ.draw_circle(surf)
