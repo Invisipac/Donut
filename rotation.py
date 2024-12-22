@@ -5,8 +5,8 @@ from math import pi
 class Rotation:
     def __init__(self, vec: np.ndarray = np.array([1, 0, 0])):
         self.axis = vec
-        self.angle = 0
-        self.can_turn = True
+        self.angle = pi/30
+        self.can_turn = False
         self.start = None
         self.perp_direction = np.array([0, 0, 0])
         self.turn_direction = np.array([0, 0, 0])
@@ -30,29 +30,39 @@ class Rotation:
         else:
             return 0
 
+    def check_vec_equality(self, vec1, vec2):
+        return all(vec1[i] == vec2[i] for i in range(len(vec1)))
+
     def get_axis(self):
         m_x, m_y = pg.mouse.get_pos()[0], pg.mouse.get_pos()[1]
-
-        if any((m_x, m_y)[i] != self.end[i] for i in range(2)):
-            self.can_turn = True
-            vec = np.subtract((m_x, m_y), self.end)
-            print(vec)
-            
-            direction = self.check_parallel(vec, self.perp_direction)
-
-            if  direction != 0:
-                self.perp_direction = np.subtract((m_x, m_y), self.start)
-                self.end = np.array([m_x, m_y])
-                self.angle = (direction * pi)/30
-            else:
-                self.start = np.array([self.end[0], self.end[1]])
-                self.perp_direction = vec
-
-
-            self.axis = np.array([-self.perp_direction[1], self.perp_direction[0], 0])
+        vec = (m_x, m_y) - self.start
+        if not self.check_vec_equality(vec, (0, 0)):
+            self.axis = np.array([-vec[1], vec[0], 0])
             self.axis = self.axis/np.linalg.norm(self.axis)
+            self.start = np.array([m_x, m_y])
+            self.can_turn = True
         else:
             self.can_turn = False
+        # if any((m_x, m_y)[i] != self.end[i] for i in range(2)):
+        #     
+        #     vec = np.subtract((m_x, m_y), self.end)
+        #     print(vec)
+            
+        #     direction = self.check_parallel(vec, self.perp_direction)
+
+        #     if  direction != 0:
+        #         self.perp_direction = np.subtract((m_x, m_y), self.start)
+        #         self.end = np.array([m_x, m_y])
+        #         self.angle = (direction * pi)/30
+        #     else:
+        #         self.start = np.array([self.end[0], self.end[1]])
+        #         self.perp_direction = vec
+
+
+        #     self.axis = np.array([-self.perp_direction[1], self.perp_direction[0], 0])
+        #     self.axis = self.axis/np.linalg.norm(self.axis)
+        # else:
+        #     self.can_turn = False
 
         # print(self.start, self.end, self.axis)
     
